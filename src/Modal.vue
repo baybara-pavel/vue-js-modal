@@ -10,7 +10,6 @@
         <div v-if="visibility.modal"
              ref="modal"
              :class="modalClass"
-             :style="modalStyle"
              @mousedown.stop>
           <slot/>
           <resizer v-if="resizable"
@@ -157,32 +156,9 @@
       this.onWindowResize()
     },
     computed: {
-      position () {
-        const { window, modal, shift } = this
-        const maxLeft = window.width - modal.width
-        const maxTop = window.height - modal.height
-
-        const left = shift.left + this.pivotX * (window.width - modal.width)
-        const top = shift.top + this.pivotY * (window.height - modal.height)
-
-        return {
-          left: inRange(0, maxLeft, left),
-          top: inRange(0, maxTop, top)
-        }
-      },
-
       modalClass () {
         return ['v--modal-box', this.classes]
       },
-
-      modalStyle () {
-        return {
-          top: this.position.top + 'px',
-          left: this.position.left + 'px',
-          width: this.modal.width + 'px',
-          height: this.modal.height + 'px'
-        }
-      }
     },
     methods: {
       onWindowResize () {
